@@ -1,0 +1,62 @@
+---
+# TODO(crbug.com/1282228): reenable google-readability-casting once it no
+# longer has as many false-positives.
+Checks: "-*,
+  abseil-*,
+  bugprone-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -google-readability-braces-around-statements,
+  -google-readability-namespace-comments,
+  -google-runtime-references,
+  -misc-non-private-member-variables-in-classes,
+  -misc-const-correctness,
+  -modernize-use-trailing-return-type,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-named-parameter,
+  -readability-function-cognitive-complexity"
+
+CheckOptions:
+  - key: bugprone-assert-side-effect.AssertMacros
+    value: assert,DCHECK
+  - key: bugprone-dangling-handle.HandleClasses
+    value: ::std::basic_string_view;::std::span;::absl::string_view;::base::BasicStringPiece;::base::span
+  - key: bugprone-string-constructor.StringNames
+    value: ::std::basic_string;::std::basic_string_view;::base::BasicStringPiece;::absl::string_view
+  - key: modernize-use-default-member-init.UseAssignment
+    value: 1
+  # crbug.com/1342136, crbug.com/1343915: At times, this check makes
+  # suggestions that break builds. Safe mode allows us to sidestep that.
+  - key: modernize-use-transparent-functors.SafeMode
+    value: 1
+  # This relaxes modernize-use-emplace in some cases; we might want to make it
+  # more aggressive in the future. See discussion on
+  # https://groups.google.com/a/chromium.org/g/cxx/c/noMMTNYiM0w .
+  - key: modernize-use-emplace.IgnoreImplicitConstructors
+    value: 1
+  # crbug.com/1402090: until we support C++20 everywhere, we shouldn't be
+  # suggesting constructs that require C++20. Prefer base::Reversed.
+  # TODO(crbug.com/1404958): remove these once C++20 is everywhere.
+  - key: modernize-loop-convert.MakeReverseRangeFunction
+    value: base::Reversed
+  - key: modernize-loop-convert.MakeReverseRangeHeader
+    value: base/containers/adapters.h
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+  - { key: readability-identifier-naming.StructCase, value: CamelCase }
+  - { key: readability-identifier-naming.EnumCase, value: CamelCase }
+  - { key: readability-identifier-naming.EnumConstantCase, value: UPPER_CASE }
+  - { key: readability-identifier-naming.NamespaceCase, value: lower_case }
+  - { key: readability-identifier-naming.ClassMemberCase, value: lower_case }
+  - { key: readability-identifier-naming.FunctionCase, value: lower_case }
+  - { key: readability-identifier-naming.VariableCase, value: lower_case }
+  - {
+      key: readability-identifier-naming.MacroDefinitionCase,
+      value: UPPER_CASE,
+    }
+  - { key: readability-identifier-naming.GlobalConstantCase, value: UPPER_CASE }
