@@ -4,6 +4,7 @@ project(hotaru)
 # static lib
 set(HOTARU_CORE_SRCS
     src/index/btree.cpp
+    src/fio/file_io.cpp
 )
 
 add_library(hotaru_core STATIC 

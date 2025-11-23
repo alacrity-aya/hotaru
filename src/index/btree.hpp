@@ -10,6 +10,8 @@ using data::LogRecordPos;
 using phmap::btree_map;
 
 class BTree final: public Indexer {
+    using ptr = std::shared_ptr<BTree>;
+
 public:
     bool put(std::vector<uint8_t> key, LogRecordPos pos) final;
     std::optional<LogRecordPos> get(std::vector<uint8_t>) final;
