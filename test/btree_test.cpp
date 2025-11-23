@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <index/btree.hpp>
 
-TEST(BTreeFunctionalTest, BasicOperations) {
+TEST(BTreeTest, BasicOperations) {
     indexer::BTree btree;
     std::vector<uint8_t> key1 { 1, 1, 1 };
     std::vector<uint8_t> key2 { 2, 2, 2 };

@@ -8,7 +8,7 @@ namespace indexer {
 
 bool BTree::put(std::vector<uint8_t> key, LogRecordPos pos) {
     std::unique_lock<std::shared_mutex> lock(this->mtx);
-    this->tree.emplace(key, pos);
+    this->tree[key] = pos;
     return true;
 }
 
