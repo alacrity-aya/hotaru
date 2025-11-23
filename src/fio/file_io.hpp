@@ -51,6 +51,8 @@ public:
     FileIO& operator=(const FileIO&) = delete;
     FileIO& operator=(FileIO&&) = delete;
 
+    static Result<FileIO::ptr> create(const std::string& filename);
+
     // IOManager
 
     Result<uint64_t> read(std::span<uint8_t> buf, uint64_t offset) override;
@@ -59,7 +61,7 @@ public:
     ~FileIO() override = default;
 
 private:
-    FileDescriptor fd;
+    FileDescriptor file_descriptor;
     std::shared_mutex mtx;
 };
 

@@ -14,22 +14,31 @@ namespace errors {
 enum class ErrorCode : uint8_t {
 
     // File operation
-    IO_ERROR,
-    FILE_NOT_OPEN,
+    FAILED_TO_READ_FROM_DATA_FILE,
+    FAILED_TO_WRITE_TO_DATA_FILE,
+    FAILED_TO_SYNC_DATA_FILE,
+    FAILED_TO_OPEN_DATA_FILE,
 
     // other
 };
 
 inline std::string error_to_string(ErrorCode err) {
     static std::map<ErrorCode, std::string> error_map {
-        { ErrorCode::IO_ERROR, "I/O operation failed" },
-        { ErrorCode::FILE_NOT_OPEN, "File did not open" },
+        { ErrorCode::FAILED_TO_READ_FROM_DATA_FILE, "failed to read from data file" },
+        { ErrorCode::FAILED_TO_WRITE_TO_DATA_FILE, "failed to write to data file" },
+        { ErrorCode::FAILED_TO_SYNC_DATA_FILE, "failed to sync data file" },
+        { ErrorCode::FAILED_TO_OPEN_DATA_FILE, "failed to open data file" },
     };
     if (error_map.contains(err)) {
         return error_map[err];
     }
     return "Unknown error";
 }
+
+struct Error;
+
+template<typename T>
+using Result = std::expected<T, Error>;
 
 struct Error {
 public:
@@ -47,12 +56,14 @@ public:
         return std::format("{}: {} {}", loc, base_msg, msg);
     }
 
+    ErrorCode get_code() {
+        return this->code;
+    }
+
 private:
     ErrorCode code;
     const std::source_location loc;
     std::string msg;
 };
 
-template<typename T>
-using Result = std::expected<T, Error>;
 } // namespace errors

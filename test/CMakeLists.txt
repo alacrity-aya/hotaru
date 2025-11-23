@@ -4,6 +4,8 @@ file(GLOB TEST_SOURCES
     "*_test.cpp"
 )
 
+# SET(TEST_SOURCES btree_test.cpp file_io_test.cpp)
+
 add_executable(hotaru_tests ${TEST_SOURCES})
 
 find_package(GTest CONFIG REQUIRED)

@@ -7,9 +7,16 @@ set(HOTARU_CORE_SRCS
     src/fio/file_io.cpp
 )
 
+
+
 add_library(hotaru_core STATIC 
     ${HOTARU_CORE_SRCS}
 )
+
+
+# spdlog
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(hotaru_core PUBLIC spdlog::spdlog)
 
 target_include_directories(hotaru_core PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
